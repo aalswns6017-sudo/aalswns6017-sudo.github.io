@@ -3,427 +3,285 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- 탭/제목 -->
   <title>아라금속 — 공식 웹사이트</title>
-
-  <!-- 링크 미리보기 (카카오톡, 문자 등) -->
   <meta property="og:title" content="아라금속">
   <meta property="og:description" content="원하는 설명을 여기에">
   <meta property="og:url" content="https://ara-metal.co.kr">
-  <meta property="og:image" content="https://ara-metal.co.kr/미리보기이미지.png">
-  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Inter:wght@300;400;500&display=swap');
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f0f0f;
-      --surface: #181818;
-      --border: #2a2a2a;
-      --text: #e8e4dc;
-      --muted: #6b6760;
-      --accent: #c8b89a;
-      --accent-dim: #4a3f30;
+      --bg: #ffffff;
+      --nav-bg: #ffffff;
+      --nav-border: #e0e0e0;
+      --nav-height: 64px;
+      --accent: #1a4fa0;
+      --text: #1a1a1a;
+      --muted: #666;
+      --sub-bg: #f5f7fa;
+      --sub-border: #e0e0e0;
+      --hover: #1a4fa0;
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       background: var(--bg);
       color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      min-height: 100vh;
     }
 
-    /* 네비 */
-    nav {
+    /* ── 상단 네비 ── */
+    header {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--nav-border);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: stretch;
+      height: var(--nav-height);
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .logo {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 20px 48px;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s, background 0.3s;
-    }
-    nav.scrolled {
-      background: rgba(15,15,15,0.92);
-      backdrop-filter: blur(12px);
-      border-color: var(--border);
-    }
-    .nav-logo {
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
-      font-size: 15px;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-
-    /* 히어로 */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 120px 48px 80px;
-      max-width: 900px;
-    }
-    .hero-eyebrow {
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
-      font-size: clamp(40px, 7vw, 80px);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 24px;
-    }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
-    .hero-desc {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.8;
-      margin-bottom: 48px;
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid var(--accent-dim);
-      padding-bottom: 4px;
-      transition: border-color 0.2s, gap 0.2s;
-    }
-    .hero-cta:hover { border-color: var(--accent); gap: 14px; }
-
-    /* 구분선 */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0 48px;
-    }
-
-    /* 섹션 공통 */
-    section {
-      padding: 96px 48px;
-      max-width: 900px;
-    }
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 40px;
-    }
-
-    /* 소개 */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-    .about-text {
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
       font-size: 20px;
-      line-height: 1.9;
-      color: var(--text);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      margin-right: 48px;
+      white-space: nowrap;
+      text-decoration: none;
     }
-    .about-details { padding-top: 4px; }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-    .detail-row:first-child { border-top: 1px solid var(--border); }
-    .detail-key { color: var(--muted); letter-spacing: 0.05em; }
-    .detail-val { color: var(--text); }
 
-    /* 기술 */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+    /* 메인 탭 */
+    .nav-tabs {
+      display: flex;
+      align-items: stretch;
+      flex: 1;
+      list-style: none;
     }
-    .skill-item {
-      background: var(--bg);
-      padding: 28px 24px;
-      transition: background 0.2s;
+
+    .nav-tabs > li {
+      position: relative;
+      display: flex;
     }
-    .skill-item:hover { background: var(--surface); }
-    .skill-name {
-      font-size: 14px;
+
+    .nav-tabs > li > a {
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      font-size: 15px;
       font-weight: 500;
       color: var(--text);
-      margin-bottom: 6px;
-    }
-    .skill-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
-
-    /* 프로젝트 */
-    .project-list { display: flex; flex-direction: column; }
-    .project-item {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
       text-decoration: none;
-      transition: padding-left 0.2s;
-      cursor: pointer;
-    }
-    .project-item:first-child { border-top: 1px solid var(--border); }
-    .project-item:hover { padding-left: 8px; }
-    .project-left { flex: 1; }
-    .project-name {
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
-      font-size: 18px;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .project-desc { font-size: 13px; color: var(--muted); }
-    .project-tag {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
       white-space: nowrap;
     }
 
-    /* 연락처 */
-    .contact-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .nav-tabs > li > a:hover,
+    .nav-tabs > li.active > a {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
-    .contact-heading {
-      font-family: 'Noto Serif KR', serif;
-      font-weight: 300;
-      font-size: 36px;
-      color: var(--text);
-      margin-bottom: 8px;
+
+    /* 드롭다운 */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: calc(var(--nav-height) - 1px);
+      left: 0;
+      min-width: 160px;
+      background: #fff;
+      border: 1px solid var(--sub-border);
+      border-top: 2px solid var(--accent);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      z-index: 200;
     }
-    .contact-sub { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
-    .contact-links { display: flex; gap: 24px; flex-wrap: wrap; }
-    .contact-link {
+
+    .nav-tabs > li:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 20px;
       font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
       color: var(--text);
       text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 3px;
-      transition: color 0.2s, border-color 0.2s;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s, color 0.15s;
     }
-    .contact-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown a:hover {
+      background: var(--sub-bg);
+      color: var(--accent);
+    }
+
+    /* ── 콘텐츠 ── */
+    main {
+      margin-top: var(--nav-height);
+    }
+
+    .page {
+      display: none;
+      min-height: calc(100vh - var(--nav-height));
+    }
+    .page.active { display: block; }
+
+    /* 히어로 배너 */
+    .hero {
+      background: linear-gradient(135deg, #1a4fa0 0%, #0d2d6b 100%);
+      color: #fff;
+      padding: 80px 32px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      font-size: 16px;
+      opacity: 0.75;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* 콘텐츠 영역 */
+    .content {
+      max-width: 900px;
+      margin: 64px auto;
+      padding: 0 32px;
+    }
+    .content h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--sub-border);
+    }
+    .content p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
 
     /* 푸터 */
     footer {
-      padding: 32px 48px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
+      background: #f5f7fa;
+      border-top: 1px solid var(--nav-border);
+      padding: 32px;
+      text-align: center;
+      font-size: 13px;
       color: var(--muted);
-    }
-
-    /* 반응형 */
-    @media (max-width: 640px) {
-      nav { padding: 16px 24px; }
-      .nav-links { gap: 20px; }
-      .hero, section { padding-left: 24px; padding-right: 24px; }
-      .divider { margin: 0 24px; }
-      .about-grid { grid-template-columns: 1fr; gap: 32px; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <nav id="nav">
-    <div class="nav-logo">민준</div>
-    <div class="nav-links">
-      <a href="#about">소개</a>
-      <a href="#skills">기술</a>
-      <a href="#projects">프로젝트</a>
-      <a href="#contact">연락</a>
-    </div>
-  </nav>
+<header>
+  <div class="nav-wrap">
+    <a class="logo" href="#" onclick="showPage('tab1')">아라메탈</a>
+    <ul class="nav-tabs">
 
-  <!-- 히어로 -->
-  <div class="hero">
-    <div class="hero-eyebrow">개발자 · 서울</div>
-    <h1>만드는 것을<br>좋아하는<br><em>민준</em>입니다.</h1>
-    <p class="hero-desc">
-      웹과 앱을 만들며 아이디어를 현실로 옮기는 일을 합니다.<br>
-      사용자 경험과 깔끔한 코드에 관심이 많아요.
-    </p>
-    <a href="#about" class="hero-cta">더 알아보기 →</a>
+      <li class="active">
+        <a href="#" onclick="showPage('tab1')">예시1</a>
+        <div class="dropdown">
+          <a href="#" onclick="showPage('tab1')">예시1 — 하위메뉴 A</a>
+          <a href="#" onclick="showPage('tab1')">예시1 — 하위메뉴 B</a>
+          <a href="#" onclick="showPage('tab1')">예시1 — 하위메뉴 C</a>
+        </div>
+      </li>
+
+      <li>
+        <a href="#" onclick="showPage('tab2')">예시2</a>
+        <div class="dropdown">
+          <a href="#" onclick="showPage('tab2')">예시2 — 하위메뉴 A</a>
+          <a href="#" onclick="showPage('tab2')">예시2 — 하위메뉴 B</a>
+          <a href="#" onclick="showPage('tab2')">예시2 — 하위메뉴 C</a>
+        </div>
+      </li>
+
+      <li>
+        <a href="#" onclick="showPage('tab3')">예시3</a>
+        <div class="dropdown">
+          <a href="#" onclick="showPage('tab3')">예시3 — 하위메뉴 A</a>
+          <a href="#" onclick="showPage('tab3')">예시3 — 하위메뉴 B</a>
+        </div>
+      </li>
+
+      <li>
+        <a href="#" onclick="showPage('tab4')">예시4</a>
+        <div class="dropdown">
+          <a href="#" onclick="showPage('tab4')">예시4 — 하위메뉴 A</a>
+          <a href="#" onclick="showPage('tab4')">예시4 — 하위메뉴 B</a>
+        </div>
+      </li>
+
+      <li>
+        <a href="#" onclick="showPage('tab5')">예시5</a>
+        <div class="dropdown">
+          <a href="#" onclick="showPage('tab5')">예시5 — 하위메뉴 A</a>
+          <a href="#" onclick="showPage('tab5')">예시5 — 하위메뉴 B</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</header>
+
+<main>
+
+  <div id="tab1" class="page active">
+    <div class="hero"><h1>예시1</h1><p>이곳에 예시1 페이지의 설명을 입력하세요.</p></div>
+    <div class="content"><h2>예시1 콘텐츠</h2><p>여기에 예시1 관련 내용을 작성합니다.</p></div>
   </div>
 
-  <hr class="divider">
+  <div id="tab2" class="page">
+    <div class="hero"><h1>예시2</h1><p>이곳에 예시2 페이지의 설명을 입력하세요.</p></div>
+    <div class="content"><h2>예시2 콘텐츠</h2><p>여기에 예시2 관련 내용을 작성합니다.</p></div>
+  </div>
 
-  <!-- 소개 -->
-  <section id="about">
-    <div class="section-label">소개</div>
-    <div class="about-grid">
-      <div class="about-text">
-        새로운 기술을 배우고<br>
-        직접 만들어보는 것을<br>
-        즐기는 개발자입니다.
-      </div>
-      <div class="about-details">
-        <div class="detail-row">
-          <span class="detail-key">위치</span>
-          <span class="detail-val">서울, 대한민국</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-key">관심 분야</span>
-          <span class="detail-val">웹 개발, UI/UX</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-key">현재 상태</span>
-          <span class="detail-val">사이드 프로젝트 진행 중</span>
-        </div>
-        <div class="detail-row">
-          <span class="detail-key">언어</span>
-          <span class="detail-val">한국어, 영어</span>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div id="tab3" class="page">
+    <div class="hero"><h1>예시3</h1><p>이곳에 예시3 페이지의 설명을 입력하세요.</p></div>
+    <div class="content"><h2>예시3 콘텐츠</h2><p>여기에 예시3 관련 내용을 작성합니다.</p></div>
+  </div>
 
-  <hr class="divider">
+  <div id="tab4" class="page">
+    <div class="hero"><h1>예시4</h1><p>이곳에 예시4 페이지의 설명을 입력하세요.</p></div>
+    <div class="content"><h2>예시4 콘텐츠</h2><p>여기에 예시4 관련 내용을 작성합니다.</p></div>
+  </div>
 
-  <!-- 기술 -->
-  <section id="skills">
-    <div class="section-label">기술</div>
-    <div class="skills-grid">
-      <div class="skill-item">
-        <div class="skill-name">HTML / CSS</div>
-        <div class="skill-desc">시멘틱 마크업, 반응형 레이아웃</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">JavaScript</div>
-        <div class="skill-desc">ES6+, DOM 조작, 비동기 처리</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">React</div>
-        <div class="skill-desc">컴포넌트 기반 UI 개발</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">Python</div>
-        <div class="skill-desc">스크립트, 데이터 처리</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">Git / GitHub</div>
-        <div class="skill-desc">버전 관리, 협업</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-name">Figma</div>
-        <div class="skill-desc">UI 디자인, 프로토타이핑</div>
-      </div>
-    </div>
-  </section>
+  <div id="tab5" class="page">
+    <div class="hero"><h1>예시5</h1><p>이곳에 예시5 페이지의 설명을 입력하세요.</p></div>
+    <div class="content"><h2>예시5 콘텐츠</h2><p>여기에 예시5 관련 내용을 작성합니다.</p></div>
+  </div>
 
-  <hr class="divider">
+</main>
 
-  <!-- 프로젝트 -->
-  <section id="projects">
-    <div class="section-label">프로젝트</div>
-    <div class="project-list">
-      <div class="project-item">
-        <div class="project-left">
-          <div class="project-name">개인 웹사이트</div>
-          <div class="project-desc">GitHub Pages로 배포한 포트폴리오 사이트</div>
-        </div>
-        <div class="project-tag">HTML / CSS</div>
-      </div>
-      <div class="project-item">
-        <div class="project-left">
-          <div class="project-name">날씨 앱</div>
-          <div class="project-desc">OpenWeather API를 활용한 실시간 날씨 조회</div>
-        </div>
-        <div class="project-tag">JavaScript</div>
-      </div>
-      <div class="project-item">
-        <div class="project-left">
-          <div class="project-name">할 일 관리</div>
-          <div class="project-desc">로컬 스토리지 기반 투두 리스트</div>
-        </div>
-        <div class="project-tag">React</div>
-      </div>
-    </div>
-  </section>
+<footer>© 2026 아라메탈. All rights reserved.</footer>
 
-  <hr class="divider">
-
-  <!-- 연락 -->
-  <section id="contact">
-    <div class="section-label">연락</div>
-    <div class="contact-wrap">
-      <div class="contact-heading">같이 만들어요.</div>
-      <p class="contact-sub">프로젝트 협업이나 궁금한 점이 있으면 편하게 연락 주세요.</p>
-      <div class="contact-links">
-        <a href="mailto:hello@example.com" class="contact-link">이메일</a>
-        <a href="https://github.com" class="contact-link" target="_blank">GitHub</a>
-        <a href="https://linkedin.com" class="contact-link" target="_blank">LinkedIn</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <span>© 2026 민준</span>
-    <span>서울, 대한민국</span>
-  </footer>
-
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    });
-  </script>
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tabs > li').forEach(li => li.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const idx = parseInt(id.replace('tab','')) - 1;
+    document.querySelectorAll('.nav-tabs > li')[idx].classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
 
 </body>
 </html>
