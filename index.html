@@ -36,7 +36,7 @@
       top: 0; left: 0; right: 0;
       z-index: 100;
       background: transparent;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid transparent;
       transition: background 0.3s, border-color 0.3s;
     }
     header.open {
@@ -117,20 +117,22 @@
     header.open .nav-tabs > li.active > a { color: var(--brand); }
     header.open .nav-tabs > li:hover > a::after { transform: scaleX(1); }
 
-    /* 메가메뉴 펼침 패널 */
-    .mega-panel {
+    /* 메가메뉴 흰 배경 띠 (헤더 아래 풀와이드) */
+    header::after {
+      content: '';
       position: absolute;
       top: var(--nav-height);
       left: 0;
       right: 0;
       background: #fff;
-      border-bottom: 1px solid #e3e3e3;
       box-shadow: 0 12px 28px rgba(0,0,0,0.08);
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
       z-index: 1;
+      pointer-events: none;
     }
+    header.open::after { max-height: 360px; }
 
     /* 각 메뉴의 하위 항목 칼럼 */
     .mega-col {
@@ -488,8 +490,8 @@
       .logo-text { font-size: 18px; }
       .logo { margin-right: 12px; }
       .nav-tabs > li > a { padding: 0 12px; font-size: 13px; }
-      .mega-panel { display: none !important; }
       .mega-col { display: none !important; }
+      header::after { display: none !important; }
       .card-grid, .gallery-grid { grid-template-columns: 1fr 1fr; }
       .content { padding: 0 16px; margin: 40px auto; }
       .earth-wrap { width: 500px; height: 500px; bottom: -20%; }
@@ -534,8 +536,6 @@
       </li>
     </ul>
   </div>
-  <!-- 펼쳐지는 패널 배경 -->
-  <div class="mega-panel"></div>
 </header>
 
 <main>
@@ -863,29 +863,24 @@
   window.addEventListener('load', alignMegaCols);
   window.addEventListener('resize', alignMegaCols);
 
-  // 빈 메뉴(견적·갤러리)에 마우스 올리면 패널 안 열리게
+  // 하위 항목 있는 메뉴에 마우스 올리면 헤더 열림
   document.querySelectorAll('.nav-tabs > li').forEach(function(li) {
     const col = li.querySelector('.mega-col');
     const hasItems = col && col.children.length > 0;
+    const header = document.getElementById('header');
     li.addEventListener('mouseenter', function() {
-      const panel = document.querySelector('.mega-panel');
-      const header = document.getElementById('header');
       if (hasItems) {
-        if (panel) panel.style.maxHeight = '360px';
-        if (header) header.classList.add('open');
+        header.classList.add('open');
       } else {
-        if (panel) panel.style.maxHeight = '0';
-        if (header) header.classList.remove('open');
+        header.classList.remove('open');
       }
     });
   });
 
-  // 헤더를 벗어나면 패널 닫기
+  // 헤더를 벗어나면 닫기
   const headerEl = document.getElementById('header');
   if (headerEl) {
     headerEl.addEventListener('mouseleave', function() {
-      const panel = document.querySelector('.mega-panel');
-      if (panel) panel.style.maxHeight = '0';
       headerEl.classList.remove('open');
     });
   }
