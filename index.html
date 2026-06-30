@@ -35,9 +35,8 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(10,10,10,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
     }
 
     .nav-wrap {
@@ -47,6 +46,8 @@
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 32px;
+      position: relative;
+      z-index: 2;
     }
 
     .logo {
@@ -57,9 +58,9 @@
       cursor: pointer;
     }
     .logo-text {
-      font-size: 22px;
+      font-size: 28px;
       font-weight: 800;
-      color: #fff;
+      color: var(--brand);
       letter-spacing: -0.02em;
       white-space: nowrap;
     }
@@ -72,84 +73,88 @@
     }
 
     .nav-tabs > li {
-      position: relative;
+      position: static;
       display: flex;
-      align-items: center;
+      align-items: stretch;
     }
 
     .nav-tabs > li > a {
       display: flex;
       align-items: center;
-      padding: 8px 22px;
-      margin: 0 2px;
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.7);
+      padding: 0 28px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
       text-decoration: none;
-      border-radius: 24px;
-      transition: color 0.2s, background 0.2s;
+      transition: color 0.2s;
       white-space: nowrap;
       cursor: pointer;
+      position: relative;
     }
 
-    .nav-tabs > li > a:hover {
-      color: #fff;
-      background: rgba(255,255,255,0.1);
+    .nav-tabs > li > a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 28px;
+      right: 28px;
+      height: 3px;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform 0.25s;
     }
-    .nav-tabs > li.active > a {
-      color: #fff;
-      background: rgba(255,255,255,0.14);
-    }
+    .nav-tabs > li:hover > a,
+    .nav-tabs > li.active > a { color: var(--brand); }
+    .nav-tabs > li:hover > a::after,
+    .nav-tabs > li.active > a::after { transform: scaleX(1); }
 
-    .dropdown {
-      display: none;
+    /* 메가메뉴 펼침 패널 */
+    .mega-panel {
       position: absolute;
       top: var(--nav-height);
       left: 0;
-      min-width: 180px;
-      width: max-content;
-      background: rgba(20,24,32,0.97);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
-      padding: 8px;
-      z-index: 200;
-    }
-    .nav-tabs > li:hover .dropdown { display: block; }
-    .dropdown::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: 0;
       right: 0;
-      height: 10px;
+      background: #f7f8fa;
+      border-bottom: 1px solid #e3e3e3;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      z-index: 1;
     }
-    .dropdown-label {
-      display: block;
-      padding: 8px 16px 4px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--accent2);
+
+    /* 각 메뉴의 하위 항목 칼럼 */
+    .mega-col {
+      display: none;
+      position: absolute;
+      top: var(--nav-height);
+      padding: 28px 0 32px;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 3;
+    }
+    header:hover .nav-tabs > li:hover .mega-col { display: flex; }
+
+    .mega-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
       letter-spacing: 0.03em;
+      margin-bottom: 4px;
+      padding: 0 28px;
     }
-    .dropdown-label:not(:first-child) {
-      margin-top: 4px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 10px;
-    }
-    .dropdown a {
+    .mega-label:not(:first-child) { margin-top: 16px; }
+    .mega-col a {
       display: block;
-      padding: 9px 16px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.72);
+      padding: 7px 28px;
+      font-size: 14px;
+      color: #555;
       text-decoration: none;
-      border-radius: 8px;
       white-space: nowrap;
-      transition: background 0.15s, color 0.15s;
+      transition: color 0.15s;
       cursor: pointer;
     }
-    .dropdown a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .mega-col a:hover { color: var(--brand); font-weight: 600; }
 
     /* ── 페이지 ── */
     main { margin-top: var(--nav-height); }
@@ -471,11 +476,11 @@
 
     @media (max-width: 768px) {
       .nav-wrap { padding: 0 16px; }
-      .logo-text { font-size: 14px; }
+      .logo-text { font-size: 18px; }
       .logo { margin-right: 12px; }
       .nav-tabs > li > a { padding: 0 12px; font-size: 13px; }
-      .nav-tabs > li:hover .dropdown { display: none; }
-      .dropdown { display: none !important; }
+      .mega-panel { display: none !important; }
+      .mega-col { display: none !important; }
       .card-grid, .gallery-grid { grid-template-columns: 1fr 1fr; }
       .content { padding: 0 16px; margin: 40px auto; }
       .earth-wrap { width: 500px; height: 500px; bottom: -20%; }
@@ -485,7 +490,7 @@
 </head>
 <body>
 
-<header>
+<header id="header">
   <div class="nav-wrap">
     <a class="logo" onclick="showPage('home')">
       <span class="logo-text">아라금속</span>
@@ -493,31 +498,35 @@
     <ul class="nav-tabs">
       <li>
         <a onclick="showPage('company')">회사 소개</a>
-        <div class="dropdown">
+        <div class="mega-col">
           <a onclick="showPage('company')">인사말</a>
         </div>
       </li>
       <li>
         <a onclick="showPage('products')">제품 소개</a>
-        <div class="dropdown">
-          <span class="dropdown-label">파이프랙</span>
+        <div class="mega-col">
+          <span class="mega-label">파이프랙</span>
           <a onclick="showPage('product1')">다단 적재 대차</a>
           <a onclick="showPage('product2')">경사형 슈터랙</a>
           <a onclick="showPage('product3')">대형 작업 테이블</a>
           <a onclick="showPage('product4')">다단 부품 공급랙</a>
-          <span class="dropdown-label">상업 / 업소용 주방기구</span>
+          <span class="mega-label">상업 / 업소용 주방기구</span>
           <a onclick="showPage('product5')">예시1</a>
           <a onclick="showPage('product6')">예시2</a>
         </div>
       </li>
       <li>
         <a onclick="showPage('quote')">견적 문의</a>
+        <div class="mega-col"></div>
       </li>
       <li>
         <a onclick="showPage('gallery')">시공 갤러리</a>
+        <div class="mega-col"></div>
       </li>
     </ul>
   </div>
+  <!-- 펼쳐지는 패널 배경 -->
+  <div class="mega-panel"></div>
 </header>
 
 <main>
@@ -833,6 +842,36 @@
       history.replaceState({ page: id }, '', '#' + id);
     } catch (e) { /* sandbox 환경 무시 */ }
   });
+  // 메가메뉴: 각 하위 칼럼을 해당 탭 바로 아래에 정렬
+  function alignMegaCols() {
+    document.querySelectorAll('.nav-tabs > li').forEach(function(li) {
+      const col = li.querySelector('.mega-col');
+      if (col) {
+        col.style.left = li.offsetLeft + 'px';
+      }
+    });
+  }
+  window.addEventListener('load', alignMegaCols);
+  window.addEventListener('resize', alignMegaCols);
+
+  // 빈 메뉴(견적·갤러리)에 마우스 올리면 패널 안 열리게
+  document.querySelectorAll('.nav-tabs > li').forEach(function(li) {
+    const col = li.querySelector('.mega-col');
+    const hasItems = col && col.children.length > 0;
+    li.addEventListener('mouseenter', function() {
+      const panel = document.querySelector('.mega-panel');
+      if (panel) panel.style.maxHeight = hasItems ? '360px' : '0';
+    });
+  });
+
+  // 헤더를 벗어나면 패널 닫기
+  const headerEl = document.getElementById('header');
+  if (headerEl) {
+    headerEl.addEventListener('mouseleave', function() {
+      const panel = document.querySelector('.mega-panel');
+      if (panel) panel.style.maxHeight = '0';
+    });
+  }
 </script>
 
 </body>
