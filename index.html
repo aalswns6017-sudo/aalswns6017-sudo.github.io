@@ -135,10 +135,12 @@
     .mega-inner {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 0;
       position: relative;
-      min-height: 1px;
+      height: 0;
+      transition: height 0.3s ease;
     }
+    header.open .mega-inner { height: auto; min-height: 240px; }
 
     /* 각 메뉴의 하위 항목 칼럼 */
     .mega-col {
@@ -535,7 +537,7 @@
         <span class="mega-label">파이프랙</span>
         <a onclick="showPage('product1')">다단 적재 대차</a>
         <a onclick="showPage('product2')">경사형 슈터랙</a>
-        <a onclick="showPage('product3')">대형 작업 테이블</a>
+        <a onclick="showPage('product3')">대형 작업 대차</a>
         <a onclick="showPage('product4')">다단 부품 공급랙</a>
         <span class="mega-label">상업 / 업소용 주방기구</span>
         <a onclick="showPage('product5')">예시1</a>
@@ -556,7 +558,7 @@
         <div class="earth-glow"></div>
       </div>
       <div class="hero-content">
-        <h1>최적의 <span>물류 설비</span> 솔루션</h1>
+        <h1>최적의 <span>금속 물류</span> 솔루션</h1>
         <p>아라금속은 파이프랙·대차·작업대 제작 전문 기업으로<br>고객 현장에 꼭 맞는 맞춤 설비를 제공합니다.</p>
         <button class="hero-btn" onclick="showPage('products')">More</button>
       </div>
@@ -605,10 +607,10 @@
           </div>
         </div>
         <div class="pcard" onclick="showPage('product3')">
-          <div class="pcard-img"><img src="images/thumb3.jpeg" alt="대형 작업 테이블"></div>
+          <div class="pcard-img"><img src="images/thumb3.jpeg" alt="대형 작업 대차"></div>
           <div class="pcard-body">
-            <h4>대형 작업 테이블</h4>
-            <p>검사·조립용 작업대</p>
+            <h4>대형 작업 대차</h4>
+            <p>검사·조립용 대차</p>
           </div>
         </div>
         <div class="pcard" onclick="showPage('product4')">
@@ -678,15 +680,15 @@
   <!-- 제품3 -->
   <div id="product3" class="page">
     <div class="page-hero">
-      <h1>대형 <span>작업 테이블</span></h1>
-      <p>넓은 상판을 갖춘 견고한 조립식 작업·검사용 테이블입니다.</p>
+      <h1>대형 <span>작업 대차</span></h1>
+      <p>넓은 상판을 갖춘 견고한 조립식 작업·검사용 대차입니다.</p>
     </div>
     <div class="content">
-      <h2>대형 작업 테이블</h2>
-      <p>파이프 프레임을 촘촘히 보강해 넓은 상판에도 안정적인 하중을 견디는 작업대입니다. 부품 검사, 조립, 적재 등 다양한 용도로 활용할 수 있습니다.</p>
+      <h2>대형 작업 대차</h2>
+      <p>파이프 프레임을 촘촘히 보강해 넓은 상판에도 안정적인 하중을 견디는 작업 대차입니다. 부품 검사, 조립, 적재 등 다양한 용도로 활용할 수 있습니다.</p>
       <p>높이와 크기를 작업 환경에 맞게 조절할 수 있어 어떤 현장에도 적용 가능합니다.</p>
       <div class="product-gallery">
-        <img src="images/product3_1.jpeg" alt="대형 작업 테이블 사진 1" class="product-img-real">
+        <img src="images/product3_1.jpeg" alt="대형 작업 대차 사진 1" class="product-img-real">
       </div>
     </div>
   </div>
@@ -764,7 +766,7 @@
             <option value="">제품을 선택해주세요</option>
             <option>다단 적재 대차</option>
             <option>경사형 슈터랙</option>
-            <option>대형 작업 테이블</option>
+            <option>대형 작업 대차</option>
             <option>다단 부품 공급랙</option>
             <option>기타</option>
           </select>
@@ -860,13 +862,15 @@
   });
   // 메가메뉴: 각 칼럼을 해당 탭 바로 아래 위치에 정렬
   function alignMegaCols() {
+    const navWrap = document.querySelector('.nav-wrap');
     const tabs = document.querySelectorAll('.nav-tabs > li');
     tabs.forEach(function(li) {
       const key = li.getAttribute('data-menu');
       const col = document.querySelector('.mega-col[data-col="' + key + '"]');
-      if (col) {
-        // nav-wrap 내부 기준 left 위치 (mega-inner도 같은 max-width/padding)
-        col.style.left = li.querySelector('a').offsetLeft + 'px';
+      if (col && navWrap) {
+        const liRect = li.getBoundingClientRect();
+        const wrapRect = navWrap.getBoundingClientRect();
+        col.style.left = (liRect.left - wrapRect.left) + 'px';
       }
     });
   }
