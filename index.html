@@ -35,8 +35,13 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    header.open {
       background: #fff;
-      border-bottom: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e3e3e3;
     }
 
     .nav-wrap {
@@ -60,10 +65,12 @@
     .logo-text {
       font-size: 28px;
       font-weight: 800;
-      color: var(--brand);
+      color: #fff;
       letter-spacing: -0.02em;
       white-space: nowrap;
+      transition: color 0.3s;
     }
+    header.open .logo-text { color: var(--brand); }
 
     .nav-tabs {
       display: flex;
@@ -84,13 +91,14 @@
       padding: 0 28px;
       font-size: 15px;
       font-weight: 600;
-      color: #333;
+      color: rgba(255,255,255,0.85);
       text-decoration: none;
-      transition: color 0.2s;
+      transition: color 0.3s;
       white-space: nowrap;
       cursor: pointer;
       position: relative;
     }
+    header.open .nav-tabs > li > a { color: #333; }
 
     .nav-tabs > li > a::after {
       content: '';
@@ -104,9 +112,10 @@
       transition: transform 0.25s;
     }
     .nav-tabs > li:hover > a,
-    .nav-tabs > li.active > a { color: var(--brand); }
-    .nav-tabs > li:hover > a::after,
-    .nav-tabs > li.active > a::after { transform: scaleX(1); }
+    .nav-tabs > li.active > a { color: #fff; }
+    header.open .nav-tabs > li:hover > a,
+    header.open .nav-tabs > li.active > a { color: var(--brand); }
+    header.open .nav-tabs > li:hover > a::after { transform: scaleX(1); }
 
     /* 메가메뉴 펼침 패널 */
     .mega-panel {
@@ -860,7 +869,14 @@
     const hasItems = col && col.children.length > 0;
     li.addEventListener('mouseenter', function() {
       const panel = document.querySelector('.mega-panel');
-      if (panel) panel.style.maxHeight = hasItems ? '360px' : '0';
+      const header = document.getElementById('header');
+      if (hasItems) {
+        if (panel) panel.style.maxHeight = '360px';
+        if (header) header.classList.add('open');
+      } else {
+        if (panel) panel.style.maxHeight = '0';
+        if (header) header.classList.remove('open');
+      }
     });
   });
 
@@ -870,6 +886,7 @@
     headerEl.addEventListener('mouseleave', function() {
       const panel = document.querySelector('.mega-panel');
       if (panel) panel.style.maxHeight = '0';
+      headerEl.classList.remove('open');
     });
   }
 </script>
