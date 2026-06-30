@@ -7,6 +7,9 @@
   <meta property="og:title" content="아라금속">
   <meta property="og:description" content="아라금속 공식 웹사이트입니다.">
   <meta property="og:url" content="https://ara-metal.co.kr">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -35,8 +38,9 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: transparent;
-      transition: background 0.3s;
+      background: #ffffff;
+      border-bottom: 1px solid #e3e3e3;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     }
 
     .nav-wrap {
@@ -59,9 +63,9 @@
     }
     .logo-text {
       font-size: 28px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.02em;
+      font-weight: 900;
+      color: var(--brand);
+      letter-spacing: -0.03em;
       white-space: nowrap;
     }
 
@@ -84,7 +88,7 @@
       padding: 0 28px;
       font-size: 15px;
       font-weight: 600;
-      color: rgba(255,255,255,0.85);
+      color: #333;
       text-decoration: none;
       transition: color 0.2s;
       white-space: nowrap;
@@ -99,12 +103,12 @@
       left: 28px;
       right: 28px;
       height: 2px;
-      background: #fff;
+      background: var(--brand);
       transform: scaleX(0);
       transition: transform 0.25s;
     }
     .nav-tabs > li:hover > a,
-    .nav-tabs > li.active > a { color: #fff; }
+    .nav-tabs > li.active > a { color: var(--brand); }
     .nav-tabs > li:hover > a::after,
     .nav-tabs > li.active > a::after { transform: scaleX(1); }
 
