@@ -72,51 +72,66 @@
     .nav-tabs > li {
       position: relative;
       display: flex;
+      align-items: center;
     }
 
     .nav-tabs > li > a {
       display: flex;
       align-items: center;
-      padding: 0 24px;
+      padding: 8px 22px;
+      margin: 0 2px;
       font-size: 14px;
       font-weight: 500;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.7);
       text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
+      border-radius: 24px;
+      transition: color 0.2s, background 0.2s;
       white-space: nowrap;
     }
 
-    .nav-tabs > li > a:hover,
+    .nav-tabs > li > a:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+    }
     .nav-tabs > li.active > a {
       color: #fff;
-      border-bottom-color: var(--accent);
+      background: rgba(255,255,255,0.14);
     }
 
     .dropdown {
       display: none;
       position: absolute;
-      top: calc(var(--nav-height) - 1px);
-      left: 0;
-      min-width: 160px;
-      background: #111;
+      top: var(--nav-height);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 170px;
+      background: rgba(20,24,32,0.97);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.1);
-      border-top: 2px solid var(--accent);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+      padding: 6px;
       z-index: 200;
     }
     .nav-tabs > li:hover .dropdown { display: block; }
+    .dropdown::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 0;
+      right: 0;
+      height: 10px;
+    }
     .dropdown a {
       display: block;
-      padding: 12px 20px;
+      padding: 10px 16px;
       font-size: 13px;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.72);
       text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
       transition: background 0.15s, color 0.15s;
     }
-    .dropdown a:last-child { border-bottom: none; }
-    .dropdown a:hover { background: rgba(255,255,255,0.05); color: #fff; }
+    .dropdown a:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
     /* ── 페이지 ── */
     main { margin-top: var(--nav-height); }
@@ -252,12 +267,36 @@
 
     /* ── 일반 페이지 히어로 ── */
     .page-hero {
-      background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+      position: relative;
+      background: #0d1117;
       color: #fff;
-      padding: 64px 32px;
+      padding: 88px 32px;
       text-align: center;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
     }
+    /* 금속 질감 레이어 */
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(115deg, #0a1420 0%, #16283d 25%, #1f3a56 45%, #14283d 65%, #0a1118 100%);
+      z-index: 0;
+    }
+    /* 브러시드 헤어라인 + 빛 반사 */
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(118deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 4px),
+        radial-gradient(ellipse 70% 80% at 20% 10%, rgba(90,160,235,0.28) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 70% at 85% 80%, rgba(50,120,200,0.22) 0%, transparent 55%),
+        linear-gradient(60deg, transparent 30%, rgba(140,200,255,0.12) 48%, transparent 60%);
+      z-index: 0;
+    }
+    .page-hero h1, .page-hero p { position: relative; z-index: 1; }
     .page-hero h1 { font-size: clamp(24px, 4vw, 40px); font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
     .page-hero h1 span { color: #fff; }
     .page-hero p { font-size: 15px; color: rgba(255,255,255,0.55); max-width: 480px; margin: 0 auto; line-height: 1.7; }
@@ -533,22 +572,22 @@
     </div>
     <div class="content">
       <h2>견적 신청</h2>
-      <div class="form-wrap">
+      <form class="form-wrap" action="https://formspree.io/f/xkolvjaw" method="POST">
         <div class="form-row">
           <label>회사명 / 이름 *</label>
-          <input type="text" placeholder="회사명 또는 이름을 입력해주세요">
+          <input type="text" name="회사명_이름" placeholder="회사명 또는 이름을 입력해주세요" required>
         </div>
         <div class="form-row">
           <label>연락처 *</label>
-          <input type="tel" placeholder="010-0000-0000">
+          <input type="tel" name="연락처" placeholder="010-0000-0000" required>
         </div>
         <div class="form-row">
           <label>이메일</label>
-          <input type="email" placeholder="example@email.com">
+          <input type="email" name="이메일" placeholder="example@email.com">
         </div>
         <div class="form-row">
           <label>문의 제품</label>
-          <select>
+          <select name="문의제품">
             <option value="">제품을 선택해주세요</option>
             <option>다단 적재 대차</option>
             <option>경사형 슈터랙</option>
@@ -559,10 +598,10 @@
         </div>
         <div class="form-row">
           <label>문의 내용 *</label>
-          <textarea placeholder="문의 내용을 자세히 작성해주세요."></textarea>
+          <textarea name="문의내용" placeholder="문의 내용을 자세히 작성해주세요." required></textarea>
         </div>
-        <button class="submit-btn">견적 신청하기</button>
-      </div>
+        <button type="submit" class="submit-btn">견적 신청하기</button>
+      </form>
     </div>
   </div>
 
