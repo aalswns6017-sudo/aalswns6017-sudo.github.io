@@ -791,7 +791,8 @@
 </footer>
 
 <script>
-  function showPage(id) {
+  function renderPage(id) {
+    if (!document.getElementById(id)) id = 'home';
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-tabs > li').forEach(li => li.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -806,6 +807,31 @@
     }
     window.scrollTo(0, 0);
   }
+
+  // 메뉴 클릭 시: 화면 전환 + 히스토리 기록
+  function showPage(id) {
+    try {
+      if (location.hash !== '#' + id) {
+        history.pushState({ page: id }, '', '#' + id);
+      }
+    } catch (e) { /* sandbox 환경 무시 */ }
+    renderPage(id);
+  }
+
+  // 뒤로/앞으로 가기 시
+  window.addEventListener('popstate', function(e) {
+    const id = (e.state && e.state.page) || (location.hash ? location.hash.slice(1) : 'home');
+    renderPage(id);
+  });
+
+  // 페이지 처음 열릴 때: URL에 페이지가 있으면 그 페이지로
+  window.addEventListener('DOMContentLoaded', function() {
+    const id = location.hash ? location.hash.slice(1) : 'home';
+    renderPage(id);
+    try {
+      history.replaceState({ page: id }, '', '#' + id);
+    } catch (e) { /* sandbox 환경 무시 */ }
+  });
 </script>
 
 </body>
