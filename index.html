@@ -14,6 +14,8 @@
       --nav-height: 64px;
       --accent: #c0392b;
       --accent2: #e74c3c;
+      --brand: #1f5e8c;
+      --brand-light: #2d7fb8;
       --text: #1a1a1a;
       --muted: #888;
       --border: #2a2a2a;
@@ -104,13 +106,14 @@
       top: var(--nav-height);
       left: 50%;
       transform: translateX(-50%);
-      min-width: 170px;
+      min-width: 180px;
+      width: max-content;
       background: rgba(20,24,32,0.97);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px;
       box-shadow: 0 12px 32px rgba(0,0,0,0.45);
-      padding: 6px;
+      padding: 8px;
       z-index: 200;
     }
     .nav-tabs > li:hover .dropdown { display: block; }
@@ -122,13 +125,27 @@
       right: 0;
       height: 10px;
     }
+    .dropdown-label {
+      display: block;
+      padding: 8px 16px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent2);
+      letter-spacing: 0.03em;
+    }
+    .dropdown-label:not(:first-child) {
+      margin-top: 4px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 10px;
+    }
     .dropdown a {
       display: block;
-      padding: 10px 16px;
+      padding: 9px 16px;
       font-size: 13px;
       color: rgba(255,255,255,0.72);
       text-decoration: none;
       border-radius: 8px;
+      white-space: nowrap;
       transition: background 0.15s, color 0.15s;
     }
     .dropdown a:hover { background: rgba(255,255,255,0.08); color: #fff; }
@@ -303,13 +320,65 @@
 
     /* ── 콘텐츠 ── */
     .content { max-width: 960px; margin: 64px auto; padding: 0 32px; }
-    .content h2 { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--accent); display: inline-block; }
+    .content h2 { font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--brand); display: inline-block; }
     .content p { font-size: 15px; color: #555; line-height: 1.9; margin-bottom: 16px; }
 
-    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 24px; }
     .card { background: #f8f8f8; border: 1px solid #e8e8e8; border-radius: 8px; padding: 28px 24px; border-top: 3px solid var(--accent); }
     .card h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
     .card p { font-size: 13px; color: var(--muted); line-height: 1.7; margin: 0; }
+
+    /* 카테고리 타이틀 */
+    .category-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 48px;
+      padding-left: 14px;
+      border-left: 4px solid var(--brand);
+      line-height: 1.2;
+    }
+
+    /* 이미지 제품 카드 */
+    .pcard {
+      background: #fff;
+      border: 1px solid #eaeaea;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .pcard:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(31,94,140,0.18);
+      border-color: var(--brand-light);
+    }
+    .pcard-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: #f0f0f0;
+    }
+    .pcard-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s;
+    }
+    .pcard:hover .pcard-img img { transform: scale(1.05); }
+    .pcard-img.empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #bbb;
+      aspect-ratio: 4/3;
+    }
+    .pcard-body { padding: 18px 20px 20px; }
+    .pcard-body h4 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .pcard-body p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6; }
 
     .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
     .gallery-item {
@@ -430,10 +499,14 @@
       <li>
         <a href="#" onclick="showPage('products')">제품 소개</a>
         <div class="dropdown">
+          <span class="dropdown-label">파이프랙</span>
           <a href="#" onclick="showPage('product1')">다단 적재 대차</a>
           <a href="#" onclick="showPage('product2')">경사형 슈터랙</a>
           <a href="#" onclick="showPage('product3')">대형 작업 테이블</a>
           <a href="#" onclick="showPage('product4')">다단 부품 공급랙</a>
+          <span class="dropdown-label">상업 / 업소용 주방기구</span>
+          <a href="#" onclick="showPage('product5')">예시1</a>
+          <a href="#" onclick="showPage('product6')">예시2</a>
         </div>
       </li>
       <li>
@@ -488,11 +561,55 @@
     <div class="content">
       <h2>제품 목록</h2>
       <p>아래 제품을 클릭하면 상세 페이지로 이동합니다.</p>
+
+      <h3 class="category-title">파이프랙</h3>
       <div class="card-grid">
-        <div class="card" style="cursor:pointer" onclick="showPage('product1')"><h3>다단 적재 대차</h3><p>다층 부품 적재·운반 대차</p></div>
-        <div class="card" style="cursor:pointer" onclick="showPage('product2')"><h3>경사형 슈터랙</h3><p>선입선출 부품 공급 랙</p></div>
-        <div class="card" style="cursor:pointer" onclick="showPage('product3')"><h3>대형 작업 테이블</h3><p>검사·조립용 작업대</p></div>
-        <div class="card" style="cursor:pointer" onclick="showPage('product4')"><h3>다단 부품 공급랙</h3><p>슬림형 다단 이동식 랙</p></div>
+        <div class="pcard" onclick="showPage('product1')">
+          <div class="pcard-img"><img src="images/thumb1.jpeg" alt="다단 적재 대차"></div>
+          <div class="pcard-body">
+            <h4>다단 적재 대차</h4>
+            <p>다층 부품 적재·운반 대차</p>
+          </div>
+        </div>
+        <div class="pcard" onclick="showPage('product2')">
+          <div class="pcard-img"><img src="images/thumb2.jpeg" alt="경사형 슈터랙"></div>
+          <div class="pcard-body">
+            <h4>경사형 슈터랙</h4>
+            <p>선입선출 부품 공급 랙</p>
+          </div>
+        </div>
+        <div class="pcard" onclick="showPage('product3')">
+          <div class="pcard-img"><img src="images/thumb3.jpeg" alt="대형 작업 테이블"></div>
+          <div class="pcard-body">
+            <h4>대형 작업 테이블</h4>
+            <p>검사·조립용 작업대</p>
+          </div>
+        </div>
+        <div class="pcard" onclick="showPage('product4')">
+          <div class="pcard-img"><img src="images/thumb4.jpeg" alt="다단 부품 공급랙"></div>
+          <div class="pcard-body">
+            <h4>다단 부품 공급랙</h4>
+            <p>슬림형 다단 이동식 랙</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="category-title">상업 / 업소용 주방기구</h3>
+      <div class="card-grid">
+        <div class="pcard" onclick="showPage('product5')">
+          <div class="pcard-img empty">이미지 준비중</div>
+          <div class="pcard-body">
+            <h4>예시1</h4>
+            <p>제품 설명 준비중</p>
+          </div>
+        </div>
+        <div class="pcard" onclick="showPage('product6')">
+          <div class="pcard-img empty">이미지 준비중</div>
+          <div class="pcard-body">
+            <h4>예시2</h4>
+            <p>제품 설명 준비중</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -508,8 +625,8 @@
       <p>파이프와 조인트를 조립해 제작한 다단 구조의 이동식 대차입니다. 여러 층으로 구성되어 공간 활용도가 높고, 하부 캐스터로 자유로운 이동이 가능합니다.</p>
       <p>현장 환경과 적재물에 맞춰 단 수와 크기를 자유롭게 맞춤 제작할 수 있습니다.</p>
       <div class="product-gallery">
-        <img src="product1_1.jpeg" alt="다단 적재 대차 사진 1" class="product-img-real">
-        <img src="product1_2.jpeg" alt="다단 적재 대차 사진 2" class="product-img-real">
+        <img src="images/product1_1.jpeg" alt="다단 적재 대차 사진 1" class="product-img-real">
+        <img src="images/product1_2.jpeg" alt="다단 적재 대차 사진 2" class="product-img-real">
       </div>
     </div>
   </div>
@@ -525,9 +642,9 @@
       <p>각 단에 경사진 롤러 레일을 적용해, 부품 박스를 앞쪽으로 자연스럽게 이동시키는 선입선출(FIFO) 방식의 공급 랙입니다. 생산 라인의 부품 공급 효율을 크게 높여줍니다.</p>
       <p>다단·다열 구성으로 많은 종류의 부품을 한 번에 관리할 수 있으며, 작업 동선에 맞춰 설계가 가능합니다.</p>
       <div class="product-gallery">
-        <img src="product2_1.jpeg" alt="경사형 슈터랙 사진 1" class="product-img-real">
-        <img src="product2_2.jpeg" alt="경사형 슈터랙 사진 2" class="product-img-real">
-        <img src="product2_3.jpeg" alt="경사형 슈터랙 사진 3" class="product-img-real">
+        <img src="images/product2_1.jpeg" alt="경사형 슈터랙 사진 1" class="product-img-real">
+        <img src="images/product2_2.jpeg" alt="경사형 슈터랙 사진 2" class="product-img-real">
+        <img src="images/product2_3.jpeg" alt="경사형 슈터랙 사진 3" class="product-img-real">
       </div>
     </div>
   </div>
@@ -543,7 +660,7 @@
       <p>파이프 프레임을 촘촘히 보강해 넓은 상판에도 안정적인 하중을 견디는 작업대입니다. 부품 검사, 조립, 적재 등 다양한 용도로 활용할 수 있습니다.</p>
       <p>높이와 크기를 작업 환경에 맞게 조절할 수 있어 어떤 현장에도 적용 가능합니다.</p>
       <div class="product-gallery">
-        <img src="product3_1.jpeg" alt="대형 작업 테이블 사진 1" class="product-img-real">
+        <img src="images/product3_1.jpeg" alt="대형 작업 테이블 사진 1" class="product-img-real">
       </div>
     </div>
   </div>
@@ -559,7 +676,37 @@
       <p>슬림한 폭에 여러 단의 경사 레일을 배치해, 좁은 작업 공간에서도 다양한 부품을 효율적으로 공급할 수 있는 이동식 랙입니다. 하부 캐스터로 이동과 배치가 자유롭습니다.</p>
       <p>작업장 레이아웃과 부품 규격에 맞춰 단 수와 폭을 맞춤 제작합니다.</p>
       <div class="product-gallery">
-        <img src="product4_1.jpeg" alt="다단 부품 공급랙 사진 1" class="product-img-real">
+        <img src="images/product4_1.jpeg" alt="다단 부품 공급랙 사진 1" class="product-img-real">
+      </div>
+    </div>
+  </div>
+
+  <!-- 예시1 (주방기구) -->
+  <div id="product5" class="page">
+    <div class="page-hero">
+      <h1>예시<span>1</span></h1>
+      <p>상업 / 업소용 주방기구 예시1 페이지입니다.</p>
+    </div>
+    <div class="content">
+      <h2>예시1</h2>
+      <p>여기에 제품 설명을 추가하세요.</p>
+      <div class="product-gallery">
+        <div class="product-img">사진 영역</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 예시2 (주방기구) -->
+  <div id="product6" class="page">
+    <div class="page-hero">
+      <h1>예시<span>2</span></h1>
+      <p>상업 / 업소용 주방기구 예시2 페이지입니다.</p>
+    </div>
+    <div class="content">
+      <h2>예시2</h2>
+      <p>여기에 제품 설명을 추가하세요.</p>
+      <div class="product-gallery">
+        <div class="product-img">사진 영역</div>
       </div>
     </div>
   </div>
@@ -650,7 +797,7 @@
     document.getElementById(id).classList.add('active');
     const map = {
       company: 0,
-      products: 1, product1: 1, product2: 1, product3: 1, product4: 1,
+      products: 1, product1: 1, product2: 1, product3: 1, product4: 1, product5: 1, product6: 1,
       quote: 2,
       gallery: 3
     };
