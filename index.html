@@ -117,34 +117,39 @@
     header.open .nav-tabs > li.active > a { color: var(--brand); }
     header.open .nav-tabs > li:hover > a::after { transform: scaleX(1); }
 
-    /* 메가메뉴 흰 배경 띠 (헤더 아래 풀와이드) */
-    header::after {
-      content: '';
+    /* 메가메뉴 흰 패널 */
+    .mega-panel {
       position: absolute;
       top: var(--nav-height);
       left: 0;
       right: 0;
       background: #fff;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
       z-index: 1;
-      pointer-events: none;
     }
-    header.open::after { max-height: 360px; }
+    header.open .mega-panel { max-height: 400px; }
+
+    .mega-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      min-height: 1px;
+    }
 
     /* 각 메뉴의 하위 항목 칼럼 */
     .mega-col {
       display: none;
       position: absolute;
-      top: var(--nav-height);
+      top: 0;
       padding: 28px 0 32px;
       flex-direction: column;
       gap: 4px;
-      z-index: 3;
     }
-    header.open .nav-tabs > li:hover .mega-col { display: flex; }
+    .mega-col.show { display: flex; }
 
     .mega-label {
       font-size: 12px;
@@ -152,12 +157,11 @@
       color: var(--brand);
       letter-spacing: 0.03em;
       margin-bottom: 4px;
-      padding: 0 28px;
     }
     .mega-label:not(:first-child) { margin-top: 16px; }
     .mega-col a {
       display: block;
-      padding: 7px 28px;
+      padding: 7px 0;
       font-size: 14px;
       color: #555;
       text-decoration: none;
@@ -507,34 +511,37 @@
       <span class="logo-text">아라금속</span>
     </a>
     <ul class="nav-tabs">
-      <li>
+      <li data-menu="company">
         <a onclick="showPage('company')">회사 소개</a>
-        <div class="mega-col">
-          <a onclick="showPage('company')">인사말</a>
-        </div>
       </li>
-      <li>
+      <li data-menu="products">
         <a onclick="showPage('products')">제품 소개</a>
-        <div class="mega-col">
-          <span class="mega-label">파이프랙</span>
-          <a onclick="showPage('product1')">다단 적재 대차</a>
-          <a onclick="showPage('product2')">경사형 슈터랙</a>
-          <a onclick="showPage('product3')">대형 작업 테이블</a>
-          <a onclick="showPage('product4')">다단 부품 공급랙</a>
-          <span class="mega-label">상업 / 업소용 주방기구</span>
-          <a onclick="showPage('product5')">예시1</a>
-          <a onclick="showPage('product6')">예시2</a>
-        </div>
       </li>
-      <li>
+      <li data-menu="quote">
         <a onclick="showPage('quote')">견적 문의</a>
-        <div class="mega-col"></div>
       </li>
-      <li>
+      <li data-menu="gallery">
         <a onclick="showPage('gallery')">시공 갤러리</a>
-        <div class="mega-col"></div>
       </li>
     </ul>
+  </div>
+  <!-- 메가메뉴 흰 패널 -->
+  <div class="mega-panel">
+    <div class="mega-inner">
+      <div class="mega-col" data-col="company">
+        <a onclick="showPage('company')">인사말</a>
+      </div>
+      <div class="mega-col" data-col="products">
+        <span class="mega-label">파이프랙</span>
+        <a onclick="showPage('product1')">다단 적재 대차</a>
+        <a onclick="showPage('product2')">경사형 슈터랙</a>
+        <a onclick="showPage('product3')">대형 작업 테이블</a>
+        <a onclick="showPage('product4')">다단 부품 공급랙</a>
+        <span class="mega-label">상업 / 업소용 주방기구</span>
+        <a onclick="showPage('product5')">예시1</a>
+        <a onclick="showPage('product6')">예시2</a>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -851,37 +858,43 @@
       history.replaceState({ page: id }, '', '#' + id);
     } catch (e) { /* sandbox 환경 무시 */ }
   });
-  // 메가메뉴: 각 하위 칼럼을 해당 탭 바로 아래에 정렬
+  // 메가메뉴: 각 칼럼을 해당 탭 바로 아래 위치에 정렬
   function alignMegaCols() {
-    document.querySelectorAll('.nav-tabs > li').forEach(function(li) {
-      const col = li.querySelector('.mega-col');
+    const tabs = document.querySelectorAll('.nav-tabs > li');
+    tabs.forEach(function(li) {
+      const key = li.getAttribute('data-menu');
+      const col = document.querySelector('.mega-col[data-col="' + key + '"]');
       if (col) {
-        col.style.left = li.offsetLeft + 'px';
+        // nav-wrap 내부 기준 left 위치 (mega-inner도 같은 max-width/padding)
+        col.style.left = li.querySelector('a').offsetLeft + 'px';
       }
     });
   }
   window.addEventListener('load', alignMegaCols);
   window.addEventListener('resize', alignMegaCols);
 
-  // 하위 항목 있는 메뉴에 마우스 올리면 헤더 열림
+  const headerEl = document.getElementById('header');
+
+  // 메뉴에 마우스 올리면: 해당 칼럼만 표시, 칼럼 있으면 패널 열기
   document.querySelectorAll('.nav-tabs > li').forEach(function(li) {
-    const col = li.querySelector('.mega-col');
-    const hasItems = col && col.children.length > 0;
-    const header = document.getElementById('header');
+    const key = li.getAttribute('data-menu');
+    const col = document.querySelector('.mega-col[data-col="' + key + '"]');
     li.addEventListener('mouseenter', function() {
-      if (hasItems) {
-        header.classList.add('open');
+      document.querySelectorAll('.mega-col').forEach(c => c.classList.remove('show'));
+      if (col && col.children.length > 0) {
+        col.classList.add('show');
+        headerEl.classList.add('open');
       } else {
-        header.classList.remove('open');
+        headerEl.classList.remove('open');
       }
     });
   });
 
   // 헤더를 벗어나면 닫기
-  const headerEl = document.getElementById('header');
   if (headerEl) {
     headerEl.addEventListener('mouseleave', function() {
       headerEl.classList.remove('open');
+      document.querySelectorAll('.mega-col').forEach(c => c.classList.remove('show'));
     });
   }
 </script>
